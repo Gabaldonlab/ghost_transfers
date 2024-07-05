@@ -32,7 +32,7 @@ colnames(lookup) <- c("Ancestor", "Daughter phyla") #Change colnames
 
 write.table(lookup, "../outputs/lookup.tsv", sep="\t", row.names=F)
 
-colnames(results) <- c("donor1", "donor2", "shift_prop", "shift", "iter") # Colnames of results
+colnames(results) <- c("donor1", "donor2", "shift_prop", "shift", "older_th_feca", "iter") # Colnames of results
 write.table(data.frame(results), "../outputs/groups_results.tsv", sep="\t") # Store results
 
 library(dplyr)
@@ -65,3 +65,9 @@ for (i in 1:dim(mat)[1]) {
 
 pheatmap(mat, cutree_rows = 4, cutree_cols = 4, na_col = 'white',
          filename = '../outputs/heatmap.pdf', width = 8, height = 8)
+
+## Calc proportion of shifts older than FECA for pair Actinobacteria-Alphaproteobacteria ##
+Alpha_actino <- results %>%
+  group_by(pair, shift, older_th_feca) %>% filter(pair == "Actinobacteria;Proteobacteria") %>%  summarise(n = n()) %>%
+  mutate(freq = n / sum(n))
+                           
