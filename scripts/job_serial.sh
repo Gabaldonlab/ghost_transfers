@@ -12,7 +12,6 @@
 module load R
 
 mkdir ../outputs
-Rscript 00_parse_tree.R
 python3 01_get_branch_set.py
 Rscript 02_simulate_transfers.R
 Rscript 03_plotting_shifts.R
